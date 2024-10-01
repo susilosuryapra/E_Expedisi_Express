@@ -11,33 +11,39 @@ body {
 }
 
 .background {
-    width: 430px;
-    height: 520px;
+    width: 600px;
+    height: 550px;
     position: absolute;
     transform: translate(-50%,-50%);
     left: 50%;
     top: 50%;
 }
 
+img {
+    display: block;
+    margin: 0 auto; 
+    width: 150px; 
+    height: auto;
+    margin-bottom: 20px;
+}
 
 form {
-    height: 520px;
-    width: 400px;
+    height: 700px;
+    width: 500px;
     background-color: rgba(255,255,255,0.13);
     position: absolute;
     transform: translate(-50%,-50%);
     top: 50%;
     left: 50%;
     border-radius: 10px;
+    border: 1px solid #C4C4C4;
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 50px 35px;
 }
 
     form * {
         font-family: 'Poppins',sans-serif;
-        color: #47813c;
+        color: #5E5873;
         letter-spacing: 0.5px;
         outline: none;
         border: none;
@@ -61,7 +67,7 @@ input {
     display: block;
     height: 50px;
     width: 100%;
-    background-color: rgba(156, 150, 150, 0.07);
+    border: 1px solid #B9B9C3 ;
     border-radius: 5px;
     padding: 0 10px;
     margin-top: 8px;
@@ -70,8 +76,8 @@ input {
 }
 
     input:focus {
-        border: 3px solid #47813c;
-        box-shadow: 0 0 10px #47813c;
+        border: 3px solid #46A583;
+        box-shadow: 0 0 10px #46A583;
     }
 
 ::placeholder {
@@ -85,17 +91,23 @@ input {
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
-    background-color: #47813c;
+    background-color: #46A583;
     color: #fff;
     padding: 10px 0;
     font-size: 18px;
     font-weight: 600;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-#btn-login {
-    background-color: #3b6b2e;
+.login-heading {
+    text-align: center;
+    margin-top: 20px;
 }
- 
+
+.login-heading h4,
+.login-heading p {
+    font-family: 'Montserrat', sans-serif;
+    color: #5E5873;
+}
