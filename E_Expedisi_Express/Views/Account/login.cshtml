@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null; // Menonaktifkan layout untuk halaman ini
+}
+
+@{
+    ViewData["Title"] = "Login";
+}
+<link rel="stylesheet" href="~/css/login.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<form method="post">
+    <img src="~/img/LogoAllSite 1.png" alt="image">
+    <div class="login-heading">
+        <h4>Welcome Back to E-Xpedition</h4>
+        <p>Please sign-in to your account OneKalbe</p>
+    </div>
+    <label for="usernameOrEmail" class="form-label">USERNAME / EMAIL (ONEKALBE)</label>
+    <input type="text" id="usernameOrEmail" name="usernameOrEmail" placeholder="Enter Your Username or Email" required>
+
+    <label for="password" class="form-label">Password</label>
+    <input type="password" id="password" name="password" placeholder="Password" required>
+
+    <button id="btn-login" type="submit">Login</button>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">Invalid login attempt.</div>
+    }
+</form>

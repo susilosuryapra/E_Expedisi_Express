@@ -1,7 +1,14 @@
+using E_Expedisi_Express.Data; // Pastikan untuk mengimpor namespace yang sesuai
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Tambahkan konfigurasi DbContext
+builder.Services.AddDbContext<ExpedisiDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnectionString")));
 
 var app = builder.Build();
 
@@ -20,8 +27,14 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Set default route to login page
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
+
+app.MapControllerRoute(
+    name: "login",
+    pattern: "Account/Login",
+    defaults: new { controller = "Account", action = "Login" });
 
 app.Run();
