@@ -4,6 +4,7 @@ using E_Expedisi_Express.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Expedisi_Express.Migrations
 {
     [DbContext(typeof(ExpedisiDbContext))]
-    partial class ExpedisiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241002063400_CreateDocumentType")]
+    partial class CreateDocumentType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

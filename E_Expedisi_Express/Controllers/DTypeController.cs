@@ -26,8 +26,8 @@ namespace E_Expedisi_Express.Controllers
             if (ModelState.IsValid)
             {
                 // Set CreatedAt and UpdatedAt timestamps
-                model.CreatedAt = DateTime.Now;
-                model.UpdatedAt = DateTime.Now;
+                model.CreatedDate = DateTime.Now;
+                model.UpdatedDate = DateTime.Now;
 
                 _context.DocumentType.Add(model);
                 _context.SaveChanges();
