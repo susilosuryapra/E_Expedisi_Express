@@ -1,4 +1,8 @@
 ﻿@{
+    Layout = null; // Menonaktifkan layout untuk halaman ini
+}
+
+@{
     ViewData["Title"] = "Login";
 }
 <link rel="stylesheet" href="~/css/login.css">
@@ -21,5 +25,5 @@
     @if (!ViewData.ModelState.IsValid)
     {
         <div class="alert alert-danger">Invalid login attempt.</div>
-    }
+    }
 </form>

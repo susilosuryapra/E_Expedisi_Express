@@ -27,11 +27,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Set default route to login page
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
-// Pastikan menambahkan route untuk halaman login jika diperlukan
 app.MapControllerRoute(
     name: "login",
     pattern: "Account/Login",
