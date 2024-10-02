@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Starter</title>
+    <title>PharmaDoc</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -15,6 +15,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="~/AdminLTE/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/AdminLTE/dist/css/adminlte.min.css">
+
+    <!-- Tambahkan CSS DataTables -->
+    <link rel="stylesheet" href="~/AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -82,7 +87,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/DepartmentCode" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Department Code</p>
                                     </a>
@@ -162,7 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Hand-crafted & Made with <span style="color: #FF5B5C;">♥</span>
             </div>
             <!-- Default to the left -->
-            COPYRIGHT &copy; 2023 <span style="color: #7367F0;">PT Kalbe Farma Tbk.</span>
+            COPYRIGHT &copy; 2023 <span class="font-weight-bold" style="color: #7367F0;">PT Kalbe Farma Tbk.</span>
         </footer>
     </div>
 
@@ -174,5 +179,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="~/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/AdminLTE/dist/js/adminlte.min.js"></script>
+
+    <!-- Tambahkan JS DataTables -->
+    <script src="~/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
 </body>
 </html>
