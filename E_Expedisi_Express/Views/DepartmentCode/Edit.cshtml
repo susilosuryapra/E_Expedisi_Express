@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 d-flex align-items-center">
-                    <h1 class="m-0 mr-2">Department Code | </h1>
+                    <h1 class="m-0 mr-2">Department Code | </h1> <!-- Judul Department Code -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
                             <li class="breadcrumb-item">
@@ -16,7 +16,7 @@
                                 <a href="/DepartmentCode">Department Code</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <a href="/DepartmentCode/Create">Add Department Code</a>
+                                <a href="/DepartmentCode/Edit/@Model.Id">Edit Department Code Info</a>
                             </li>
                         </ol>
                     </nav>
@@ -32,9 +32,9 @@
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-body">
-                            <form asp-action="Create" method="post" class="needs-validation" novalidate>
-                                <h4>Add New Department Code</h4>
-                                <p style="color: #B9B9C3;">Be sure you don't have any duplicate of your Department Name and/or Code</p>
+                            <form asp-action="Edit" method="post" class="needs-validation" novalidate>
+                                <h4>Edit Department Code Information</h4>
+                                <p style="color: #B9B9C3;">Update the information for this department</p>
 
                                 <div class="form-group">
                                     <label asp-for="Name">Department</label>
@@ -56,7 +56,7 @@
 
                                 <div class="form-group d-flex justify-content-end mt-5">
                                     <a href="/DepartmentCode" class="btn btn-secondary mr-2">Back</a>
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="submit" class="btn btn-success">Save Changes</button>
                                 </div>
                             </form>
                         </div>

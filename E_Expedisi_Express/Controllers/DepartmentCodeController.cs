@@ -70,5 +70,38 @@ namespace E_Expedisi_Express.Controllers
             // Jika model tidak valid, tampilkan form lagi dengan pesan error
             return View(departmentCode);
         }
+
+        // GET: DepartmentCode/Edit/5
+        public IActionResult Edit(int id)
+        {
+            var department = GetDepartmentCodes().FirstOrDefault(d => d.Id == id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View(department);
+        }
+
+        // POST: DepartmentCode/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, DepartmentCode department)
+        {
+            if (id != department.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                // Update logic here
+                // Example: save changes to database
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(department);
+        }
+
     }
 }

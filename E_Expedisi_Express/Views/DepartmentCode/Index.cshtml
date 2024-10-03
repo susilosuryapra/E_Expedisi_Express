@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<E_Expedisi_Express.Models.DepartmentCode>
 
 <div class="content-wrapper">
+
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 d-flex align-items-center">
-                    <h1 class="m-0 mr-2">Department Code | </h1> <!-- Judul Department Code -->
+                    <h1 class="m-0 mr-2">Department Code | </h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
                             <li class="breadcrumb-item">
@@ -22,6 +23,7 @@
         </div>
     </div>
     <!-- /.content-header -->
+
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
@@ -30,7 +32,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <!-- Tambahkan tombol di atas tabel -->
+                            <!-- Tombol Add New Record -->
                             <div class="d-flex justify-content-between mb-3">
                                 <a href="/DepartmentCode/Create" class="btn btn-success">Add New Record</a>
                             </div>
@@ -53,7 +55,11 @@
                                             <td>@item.Code</td>
                                             <td>@item.Name</td>
                                             <td>@item.Description</td>
-                                            <td><a class="btn btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                            <td class="text-center align-middle">
+                                                <a href="/DepartmentCode/Edit/@item.Id" class="btn btn-sm btn-success">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>
@@ -64,6 +70,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <!-- DataTables JS -->
