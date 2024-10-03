@@ -7,14 +7,15 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 d-flex align-items-center">
-                    <h1 class="m-0 mr-2">Department Code | </h1>
+                    <h1 class="m-0 mr-2">Department Code</h1>
+                    <h2 class="mr-2">| </h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
                             <li class="breadcrumb-item">
-                                <a href="/"><i class="fas fa-home"></i></a>
+                                <a href="/" style="color: #7367F0;"><i class="fas fa-home"></i></a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <a href="/DepartmentCode">Department Code</a>
+                                <a href="/DepartmentCode" style="color: #7367F0;">Department Code</a>
                             </li>
                         </ol>
                     </nav>
@@ -34,7 +35,7 @@
 
                             <!-- Tombol Add New Record -->
                             <div class="d-flex justify-content-between mb-3">
-                                <a href="/DepartmentCode/Create" class="btn btn-success">Add New Record</a>
+                                <a href="/DepartmentCode/Create" class="btn btn-success" style="background-color: #46A583; border-color: #46A583;">Add New Record</a>
                             </div>
 
                             <table id="departmentCodesTable" class="table table-bordered table-hover">
@@ -56,7 +57,7 @@
                                             <td>@item.Name</td>
                                             <td>@item.Description</td>
                                             <td class="text-center align-middle">
-                                                <a href="/DepartmentCode/Edit/@item.Id" class="btn btn-sm btn-success">
+                                                <a href="/DepartmentCode/Edit/@item.Id" class="btn btn-sm btn-success" style="background-color: #46A583; border-color: #46A583;">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             </td>
