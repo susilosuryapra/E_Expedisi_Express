@@ -1,0 +1,38 @@
+﻿h1 {
+    font-weight: 500;
+}
+
+h5 {
+    font-weight: bold;
+}
+
+.paragraph-custom {
+    color: #B9B9C3; /* Mengubah warna teks */
+}
+
+.fa-download {
+    color: #8dc341 !important; /* Mengubah warna ikon */
+}
+
+.fa-download:hover {
+    color: #b5fc51 !important; /* Warna saat dihover (lebih cerah) */
+}
+
+label {
+    font-weight: normal !important; /* Mengubah font weight menjadi normal */
+}
+
+.btn-success {
+    background-color: #8dc341 !important;
+    border-color: #8dc341 !important;
+}
+
+.breadcrumb-item a {
+    color: #8dc341 !important; /* Ubah warna teks link dalam breadcrumb */
+}
+
+/* Darken the table headers */
+table.dataTable thead th {
+    background-color: #F3F2F7;
+    font-weight: bold;
+}

@@ -1,0 +1,73 @@
+﻿@model E_Expedisi_Express.Models.DepartmentCode
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12 d-flex align-items-center">
+                    <h1 class="m-0 mr-2">Department Code</h1>
+                    <h2 class="mr-2">| </h2>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb m-0 p-0">
+                            <li class="breadcrumb-item">
+                                <a href="/"><i class="fas fa-home"></i></a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <a href="/DepartmentCode">Department Code</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <a href="/DepartmentCode/Edit/@Model.Id">Edit Department Code Information</a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form asp-action="Edit" method="post" class="needs-validation" novalidate>
+                                <h4>Edit Department Code Information</h4>
+                                <p class="paragraph-custom">Update the information for this department</p>
+
+                                <div class="form-group">
+                                    <label asp-for="Name">Department</label>
+                                    <input asp-for="Name" class="form-control" placeholder="Department Name" required />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Code"></label>
+                                    <input asp-for="Code" class="form-control" placeholder="Department Code" required />
+                                    <span asp-validation-for="Code" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Description"></label>
+                                    <input asp-for="Description" class="form-control" placeholder="The Description goes here" required />
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group d-flex justify-content-end mt-5">
+                                    <a href="/DepartmentCode" class="btn btn-secondary mr-2">Back</a>
+                                    <button type="submit" class="btn btn-success">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
