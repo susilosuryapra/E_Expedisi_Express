@@ -11,13 +11,13 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
                             <li class="breadcrumb-item">
-                                <a href="/" style="color: #7367F0;"><i class="fas fa-home"></i></a>
+                                <a href="/"><i class="fas fa-home"></i></a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <a href="/DepartmentCode" style="color: #7367F0;">Department Code</a>
+                                <a href="/DepartmentCode">Department Code</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <a href="/DepartmentCode/Edit/@Model.Id" style="color: #7367F0;">Edit Department Code Information</a>
+                                <a href="/DepartmentCode/Edit/@Model.Id">Edit Department Code Information</a>
                             </li>
                         </ol>
                     </nav>
@@ -35,7 +35,7 @@
                         <div class="card-body">
                             <form asp-action="Edit" method="post" class="needs-validation" novalidate>
                                 <h4>Edit Department Code Information</h4>
-                                <p style="color: #B9B9C3;">Update the information for this department</p>
+                                <p class="paragraph-custom">Update the information for this department</p>
 
                                 <div class="form-group">
                                     <label asp-for="Name">Department</label>
@@ -57,7 +57,7 @@
 
                                 <div class="form-group d-flex justify-content-end mt-5">
                                     <a href="/DepartmentCode" class="btn btn-secondary mr-2">Back</a>
-                                    <button type="submit" class="btn btn-success" style="background-color: #46A583; border-color: #46A583;">Save Changes</button>
+                                    <button type="submit" class="btn btn-success">Save Changes</button>
                                 </div>
                             </form>
                         </div>
