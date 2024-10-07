@@ -37,6 +37,7 @@ label {
 
 .modal-header {
     background-color: #8dc341 !important;
+    color: #FFF;
 }
 
 #successModal .modal-header {
