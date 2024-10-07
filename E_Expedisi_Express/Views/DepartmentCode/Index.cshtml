@@ -1,4 +1,4 @@
-﻿@model IEnumerable<E_Expedisi_Express.Models.DepartmentCode>
+﻿@model IEnumerable<E_Expedisi_Express.DTO.DepartmentCodeDTO>
 
 <div class="content-wrapper">
 
@@ -42,31 +42,63 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Code</th>
                                         <th>Name</th>
+                                        <th>Code</th>
                                         <th>Description</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model)
+                                    @if(Model!=null){
+                                        int Count = 1;
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="text-center align-middle">@Count</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Code</td>
+                                                <td>@item.Description</td>
+                                                <td>@(item.IsActive ? "Active" : "Inactive")</td>
+                                                <td class="text-center align-middle">
+                                                    <a href="/DepartmentCode/Edit/@item.Id" class="btn btn-sm btn-success">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            Count++;
+                                        }
+                                    }
+                                    else
                                     {
                                         <tr>
-                                            <td class="text-center align-middle">@item.Id</td>
-                                            <td>@item.Code</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Description</td>
-                                            <td class="text-center align-middle">
-                                                <a href="/DepartmentCode/Edit/@item.Id" class="btn btn-sm btn-success">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            </td>
+                                            <th colspan="6">Data is Null</th>
                                         </tr>
                                     }
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Successful Creation -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h4 class="modal-title" id="successModalLabel">Success</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    The new department code has been successfully created!
+                </div>
+                <div class="modal-footer align-items-left">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>
@@ -85,6 +117,22 @@
                 "responsive": true,
                 "autoWidth": false,
             });
+
+            // Check if the 'success' query parameter is present
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('success')) {
+                // If 'success' parameter is found, show the success modal
+                $('#successModal').modal('show');
+            }
+
+            if (urlParams.has('success')) {
+                // Show the modal
+                $('#successModal').modal('show');
+
+                // Remove the 'success' parameter from the URL after showing the modal
+                const newUrl = window.location.href.split('?')[0];
+                window.history.replaceState({}, document.title, newUrl);
+            }
         });
     </script>
 }

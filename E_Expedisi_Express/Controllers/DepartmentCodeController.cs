@@ -1,49 +1,43 @@
-﻿using E_Expedisi_Express.Models;
+﻿using E_Expedisi_Express.Data;
+using E_Expedisi_Express.DTO;
+using E_Expedisi_Express.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace E_Expedisi_Express.Controllers
 {
     public class DepartmentCodeController : Controller
     {
-        // Dummy data, replace with database call if needed
-        private List<DepartmentCode> GetDepartmentCodes()
+        private readonly ApplicationDbContext _context;
+
+        public DepartmentCodeController(ApplicationDbContext context)
         {
-            return new List<DepartmentCode>
-            {
-                new DepartmentCode { Id = 1, Code = "HR", Name = "Human Resources", Description = "HR Department" },
-                new DepartmentCode { Id = 2, Code = "IT", Name = "Information Technology", Description = "IT Department" },
-                new DepartmentCode { Id = 3, Code = "FIN", Name = "Finance", Description = "Finance Department" },
-                new DepartmentCode { Id = 4, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 5, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 6, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 7, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 8, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 9, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 10, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 11, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 12, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 13, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 14, Code = "TSR", Name = "Treasure", Description = "Treasure Department" },
-                new DepartmentCode { Id = 15, Code = "TSR", Name = "Treasure", Description = "Treasure Department" },
-                new DepartmentCode { Id = 16, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 17, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 18, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 19, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 20, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 21, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 22, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-                new DepartmentCode { Id = 23, Code = "DMY", Name = "Dummy", Description = "Dummy Department" },
-            };
+            _context = context;
         }
 
-        public IActionResult Index()
+        // GET: DepartmentCode
+        public async Task<IActionResult> Index()
         {
-            var departmentCodes = GetDepartmentCodes();
-            return View(departmentCodes);
+            // Ambil data dari database
+            var departmentCodes = await _context.DepartmentCode.ToListAsync();
+
+            // Memetakan dari entity ke DTO
+            var departmentCodeDTOs = departmentCodes.Select(d => new DepartmentCodeDTO
+            {
+                Name = d.Name,
+                Code = d.Code,
+                Description = d.Description,
+                IsActive = d.IsActive
+            }).ToList();
+
+            // Kirim list DTO ke View
+            return View(departmentCodeDTOs);
         }
 
         // GET: Add Department Code Page
-        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -52,56 +46,74 @@ namespace E_Expedisi_Express.Controllers
         // POST: Add Department Code
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(DepartmentCode departmentCode)
+        public async Task<IActionResult> Create(DepartmentCodeDTO departmentCodeDTO)
         {
             if (ModelState.IsValid)
             {
-                // Dapatkan daftar department yang ada
-                var departmentCodes = GetDepartmentCodes();
+                var departmentCode = new DepartmentCode
+                {
+                    Name = departmentCodeDTO.Name,
+                    Code = departmentCodeDTO.Code,
+                    Description = departmentCodeDTO.Description,
+                    IsActive = true,
+                    CreatedBy = "Admin", // Atur nama user yang membuat record
+                    CreatedDate = DateTime.Now
+                };
 
-                // Simulasikan penyimpanan data (tambahkan departmentCode baru ke list)
-                departmentCode.Id = departmentCodes.Max(d => d.Id) + 1; // Generate ID baru
-                departmentCodes.Add(departmentCode);
+                _context.DepartmentCode.Add(departmentCode);
+                await _context.SaveChangesAsync();
 
-                // Di dunia nyata, data ini harus disimpan di database, bukan di memori seperti ini.
-                return RedirectToAction("Index");
+                // Pass the success flag in the query string
+                return RedirectToAction(nameof(Index), new { success = true });
             }
 
-            // Jika model tidak valid, tampilkan form lagi dengan pesan error
-            return View(departmentCode);
+            return View(departmentCodeDTO);
         }
 
+
+
         // GET: DepartmentCode/Edit/5
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var department = GetDepartmentCodes().FirstOrDefault(d => d.Id == id);
-            if (department == null)
+            var departmentCode = await _context.DepartmentCode.FindAsync(id);
+            if (departmentCode == null)
             {
                 return NotFound();
             }
-            return View(department);
+            return View(departmentCode);
         }
 
         // POST: DepartmentCode/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, DepartmentCode department)
+        public async Task<IActionResult> Edit(int id, DepartmentCode departmentCode)
         {
-            if (id != department.Id)
+            if (id != departmentCode.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                // Update logic here
-                // Example: save changes to database
-
+                _context.Update(departmentCode);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(department);
+            return View(departmentCode);
         }
 
+        // POST: DepartmentCode/CheckDuplicate
+        [HttpPost]
+        public JsonResult CheckDuplicate(string name, string code)
+        {
+            // Check if the Name already exists in the database
+            bool nameExists = _context.DepartmentCode.Any(d => d.Name == name);
+
+            // Check if the Code already exists in the database
+            bool codeExists = _context.DepartmentCode.Any(d => d.Code == code);
+
+            // Return a JSON object with the existence check results
+            return Json(new { nameExists = nameExists, codeExists = codeExists });
+        }
     }
 }

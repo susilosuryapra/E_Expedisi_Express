@@ -27,6 +27,22 @@ label {
     border-color: #8dc341 !important;
 }
 
+.modal.fade.show .modal-dialog .modal-content .modal-header {
+    background-color: #8dc341 !important;
+}
+
+.bg-success {
+    background-color: #8dc341 !important;
+}
+
+.modal-header {
+    background-color: #8dc341 !important;
+}
+
+#successModal .modal-header {
+    background-color: #8dc341 !important;
+}
+
 .breadcrumb-item a {
     color: #8dc341 !important; /* Ubah warna teks link dalam breadcrumb */
 }

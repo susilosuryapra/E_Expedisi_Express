@@ -1,7 +1,14 @@
+using E_Expedisi_Express.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add SQL Server connection
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ExpedisiExpressDB")));
 
 var app = builder.Build();
 
