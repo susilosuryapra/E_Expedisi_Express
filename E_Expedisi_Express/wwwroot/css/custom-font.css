@@ -40,3 +40,9 @@ table.dataTable thead th {
     background-color: #F3F2F7;
     font-weight: bold;
 }
+
+/* Custom Switch Background when Checked */
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #8dc341;
+    border-color: #8dc341;
+}

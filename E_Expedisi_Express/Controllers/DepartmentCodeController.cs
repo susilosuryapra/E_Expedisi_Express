@@ -117,6 +117,7 @@ namespace E_Expedisi_Express.Controllers
                     departmentCode.Name = departmentCodeDTO.Name;
                     departmentCode.Code = departmentCodeDTO.Code;
                     departmentCode.Description = departmentCodeDTO.Description;
+                    departmentCode.IsActive = departmentCodeDTO.IsActive;
                     departmentCode.UpdatedBy = "AdminEdit";
                     departmentCode.UpdatedDate = DateTime.Now;
 

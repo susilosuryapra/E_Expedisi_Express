@@ -36,6 +36,7 @@
                             <!-- Form with the correct ID -->
                             <form asp-action="Edit" id="editForm" method="post" class="needs-validation" novalidate>
                                 <h4>Edit Department Code</h4>
+                                <p class="paragraph-custom">Be sure you don't have any duplicate of your Department Name and/or Code</p>
 
                                 <input type="hidden" asp-for="NewId" />
 
@@ -56,6 +57,17 @@
                                     <input asp-for="Description" class="form-control" placeholder="The Description goes here" required />
                                     <span asp-validation-for="Description" class="text-danger"></span>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="IsActive">Status</label>
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input" id="IsActive" name="IsActive" value="true" @(Model.IsActive ? "checked" : "")>
+                                        <label class="custom-control-label" id="statusLabel" for="IsActive">
+                                            @(Model.IsActive ? "Active" : "Inactive")
+                                        </label>
+                                    </div>
+                                </div>
+
 
                                 <div class="form-group d-flex justify-content-end mt-5">
                                     <a href="/DepartmentCode" class="btn btn-secondary mr-3">Cancel</a>
@@ -129,6 +141,15 @@
                 codeInput.value = newValue;
             });
 
+            // Script untuk mengubah label Active/Inactive berdasarkan checkbox
+            $('#IsActive').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#statusLabel').text('Active');
+                } else {
+                    $('#statusLabel').text('Inactive');
+                }
+            });
+
             $('#editForm').on('submit', function (e) {
                 e.preventDefault(); // Mencegah pengiriman form sebelum validasi
 
@@ -162,4 +183,5 @@
         });
     </script>
 }
+
 
