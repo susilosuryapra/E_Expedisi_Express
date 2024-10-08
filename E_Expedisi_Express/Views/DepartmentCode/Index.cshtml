@@ -61,7 +61,7 @@
                                                 <td>@item.Description</td>
                                                 <td>@(item.IsActive ? "Active" : "Inactive")</td>
                                                 <td class="text-center align-middle">
-                                                    <a href="/DepartmentCode/Edit/@item.Id" class="btn btn-sm btn-success">
+                                                    <a href="/DepartmentCode/Edit/@item.NewId" class="btn btn-sm btn-success">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                 </td>
@@ -95,7 +95,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    The new department code has been successfully created!
+                    The new department has been <strong>successfully created!</strong>
                 </div>
                 <div class="modal-footer align-items-left">
                     <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>

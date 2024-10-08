@@ -27,6 +27,8 @@ namespace E_Expedisi_Express.Controllers
             // Memetakan dari entity ke DTO
             var departmentCodeDTOs = departmentCodes.Select(d => new DepartmentCodeDTO
             {
+                Id = d.Id,
+                NewId = d.NewId,
                 Name = d.Name,
                 Code = d.Code,
                 Description = d.Description,
@@ -72,48 +74,90 @@ namespace E_Expedisi_Express.Controllers
 
 
 
-        // GET: DepartmentCode/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        // GET: DepartmentCode/Edit/{newId}
+        public async Task<IActionResult> Edit(Guid newId)
         {
-            var departmentCode = await _context.DepartmentCode.FindAsync(id);
+            var departmentCode = await _context.DepartmentCode.FirstOrDefaultAsync(d => d.NewId == newId);
+
             if (departmentCode == null)
             {
                 return NotFound();
             }
-            return View(departmentCode);
+
+            var departmentCodeDTO = new DepartmentCodeDTO
+            {
+                Id = departmentCode.Id,
+                NewId = departmentCode.NewId,
+                Name = departmentCode.Name,
+                Code = departmentCode.Code,
+                Description = departmentCode.Description,
+                IsActive = departmentCode.IsActive
+            };
+
+            return View(departmentCodeDTO);
         }
 
-        // POST: DepartmentCode/Edit/5
+        // POST: DepartmentCode/Edit/{newId}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, DepartmentCode departmentCode)
+        public async Task<IActionResult> Edit(Guid newId, DepartmentCodeDTO departmentCodeDTO)
         {
-            if (id != departmentCode.Id)
+            var departmentCode = await _context.DepartmentCode
+                .FirstOrDefaultAsync(d => d.NewId == newId);
+
+            if (departmentCode == null)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                _context.Update(departmentCode);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    departmentCode.Name = departmentCodeDTO.Name;
+                    departmentCode.Code = departmentCodeDTO.Code;
+                    departmentCode.Description = departmentCodeDTO.Description;
+                    departmentCode.UpdatedBy = "AdminEdit";
+                    departmentCode.UpdatedDate = DateTime.Now;
+
+                    _context.Update(departmentCode);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index), new { success = true });
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.DepartmentCode.Any(e => e.NewId == newId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
-            return View(departmentCode);
+
+            return View(departmentCodeDTO);
         }
+
+
 
         // POST: DepartmentCode/CheckDuplicate
         [HttpPost]
-        public JsonResult CheckDuplicate(string name, string code)
+        public JsonResult CheckDuplicate(string name, string code, Guid? newId = null)
         {
-            // Check if the Name already exists in the database
-            bool nameExists = _context.DepartmentCode.Any(d => d.Name == name);
+            // Pengecekan duplikat nama, abaikan record yang sedang diedit (newId)
+            bool nameExists = _context.DepartmentCode
+                .Any(d => d.Name == name && d.NewId != newId);
 
-            // Check if the Code already exists in the database
-            bool codeExists = _context.DepartmentCode.Any(d => d.Code == code);
+            // Pengecekan duplikat kode, abaikan record yang sedang diedit (newId)
+            bool codeExists = _context.DepartmentCode
+                .Any(d => d.Code == code && d.NewId != newId);
 
-            // Return a JSON object with the existence check results
+            // Return hasil pengecekan dalam bentuk JSON
             return Json(new { nameExists = nameExists, codeExists = codeExists });
         }
+
     }
 }

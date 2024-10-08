@@ -27,20 +27,7 @@ label {
     border-color: #8dc341 !important;
 }
 
-.modal.fade.show .modal-dialog .modal-content .modal-header {
-    background-color: #8dc341 !important;
-}
-
 .bg-success {
-    background-color: #8dc341 !important;
-}
-
-.modal-header {
-    background-color: #8dc341 !important;
-    color: #FFF;
-}
-
-#successModal .modal-header {
     background-color: #8dc341 !important;
 }
 

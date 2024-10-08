@@ -1,4 +1,4 @@
-﻿@model E_Expedisi_Express.Models.DepartmentCode
+﻿@model E_Expedisi_Express.DTO.DepartmentCodeDTO
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12 d-flex align-items-center">
-                    <h1 class="m-0 mr-2">Department Code</h1>
+                    <h1 class="m-0 mr-2">Edit Department Code</h1>
                     <h2 class="mr-2">| </h2>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb m-0 p-0">
@@ -17,7 +17,7 @@
                                 <a href="/DepartmentCode">Department Code</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <a href="/DepartmentCode/Edit/@Model.Id">Edit Department Code Information</a>
+                                <a href="/DepartmentCode/Edit/@Model.NewId">Edit Department Code</a>
                             </li>
                         </ol>
                     </nav>
@@ -33,30 +33,32 @@
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-body">
-                            <form asp-action="Edit" method="post" class="needs-validation" novalidate>
-                                <h4>Edit Department Code Information</h4>
-                                <p class="paragraph-custom">Update the information for this department</p>
+                            <!-- Form with the correct ID -->
+                            <form asp-action="Edit" id="editForm" method="post" class="needs-validation" novalidate>
+                                <h4>Edit Department Code</h4>
+
+                                <input type="hidden" asp-for="NewId" />
 
                                 <div class="form-group">
                                     <label asp-for="Name">Department</label>
-                                    <input asp-for="Name" class="form-control" placeholder="Department Name" required />
+                                    <input asp-for="Name" id="nameInput" class="form-control" placeholder="Department Name" required />
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
-                                    <label asp-for="Code"></label>
-                                    <input asp-for="Code" class="form-control" placeholder="Department Code" required />
+                                    <label asp-for="Code">Department Code</label>
+                                    <input asp-for="Code" id="codeInput" class="form-control" placeholder="Department Code" required />
                                     <span asp-validation-for="Code" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
-                                    <label asp-for="Description"></label>
+                                    <label asp-for="Description">Description</label>
                                     <input asp-for="Description" class="form-control" placeholder="The Description goes here" required />
                                     <span asp-validation-for="Description" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group d-flex justify-content-end mt-5">
-                                    <a href="/DepartmentCode" class="btn btn-secondary mr-2">Back</a>
+                                    <a href="/DepartmentCode" class="btn btn-secondary mr-3">Cancel</a>
                                     <button type="submit" class="btn btn-success">Save Changes</button>
                                 </div>
                             </form>
@@ -66,8 +68,98 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal for Duplicate Name -->
+    <div class="modal fade" id="nameExistsModal" tabindex="-1" role="dialog" aria-labelledby="nameExistsLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h4 class="modal-title text-white" id="nameExistsLabel">Warning</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    The <strong>name</strong> you entered already <strong>exists</strong>. Please choose another name.
+                </div>
+                <div class="modal-footer align-items-left">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Duplicate Code -->
+    <div class="modal fade" id="codeExistsModal" tabindex="-1" role="dialog" aria-labelledby="codeExistsLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h4 class="modal-title text-white" id="codeExistsLabel">Warning</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    The <strong>code</strong> you entered already <strong>exists</strong>. Please choose another code.
+                </div>
+                <div class="modal-footer align-items-left">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            // Validasi input Code
+            var codeInput = document.getElementById('codeInput');
+
+            // Fungsi untuk validasi input
+            codeInput.addEventListener('input', function () {
+                // Ambil nilai input dan lakukan transformasi:
+                // 1. Hapus karakter yang bukan huruf
+                // 2. Jadikan huruf kecil menjadi huruf besar
+                // 3. Batasi maksimal 3 karakter
+                var newValue = codeInput.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 3);
+                codeInput.value = newValue;
+            });
+
+            $('#editForm').on('submit', function (e) {
+                e.preventDefault(); // Mencegah pengiriman form sebelum validasi
+
+                // Ambil nilai input name, code, dan newId
+                var name = $('#nameInput').val();
+                var code = $('#codeInput').val();
+                var newId = $('input[name="NewId"]').val(); // Ambil newId dari hidden input
+
+                // AJAX request untuk mengecek duplikasi name dan code
+                $.ajax({
+                    url: '@Url.Action("CheckDuplicate", "DepartmentCode")', // Arahkan ke action untuk pengecekan duplikat
+                    type: 'POST',
+                    data: {
+                        name: name,
+                        code: code,
+                        newId: newId // Sertakan newId untuk pengecekan saat edit
+                    },
+                    success: function (response) {
+                        // Cek jika nama atau kode sudah ada
+                        if (response.nameExists) {
+                            $('#nameExistsModal').modal('show');
+                        } else if (response.codeExists) {
+                            $('#codeExistsModal').modal('show');
+                        } else {
+                            // Jika tidak ada duplikasi, submit form
+                            $('#editForm')[0].submit();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 }
+
