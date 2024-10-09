@@ -12,10 +12,10 @@ namespace E_Expedisi_Express.Models
         public string NewId { get; set; } // Renamed and set as string
 
         [Required(ErrorMessage = "Please provide a department name.")]
-        public string DepartmentName { get; set; }  // Renamed from 'Name'
+        public string DepartmentName { get; set; }
 
         [Required(ErrorMessage = "Please provide a department code.")]
-        public string DepartmentCode { get; set; }  // Renamed from 'Code'
+        public string DepartmentCode { get; set; }
 
         [Required(ErrorMessage = "Please provide a description.")]
         public string Description { get; set; }
