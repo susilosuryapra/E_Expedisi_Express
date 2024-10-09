@@ -52,23 +52,41 @@ namespace E_Expedisi_Express.Controllers
         {
             if (ModelState.IsValid)
             {
-                var departmentCode = new DepartmentCode
+                // Cek duplikasi nama department
+                var nameExists = await _context.DepartmentCode.AnyAsync(d => d.Name == departmentCodeDTO.Name);
+                var codeExists = await _context.DepartmentCode.AnyAsync(d => d.Code == departmentCodeDTO.Code);
+
+                if (nameExists)
                 {
-                    Name = departmentCodeDTO.Name,
-                    Code = departmentCodeDTO.Code,
-                    Description = departmentCodeDTO.Description,
-                    IsActive = true,
-                    CreatedBy = "Admin", // Atur nama user yang membuat record
-                    CreatedDate = DateTime.Now
-                };
+                    ModelState.AddModelError("Name", "Department name already exists.");
+                }
 
-                _context.DepartmentCode.Add(departmentCode);
-                await _context.SaveChangesAsync();
+                if (codeExists)
+                {
+                    ModelState.AddModelError("Code", "Department code already exists.");
+                }
 
-                // Pass the success flag in the query string
-                return RedirectToAction(nameof(Index), new { success = true });
+                // Jika tidak ada error, lanjutkan penyimpanan ke database
+                if (!nameExists && !codeExists)
+                {
+                    var departmentCode = new DepartmentCode
+                    {
+                        Name = departmentCodeDTO.Name,
+                        Code = departmentCodeDTO.Code,
+                        Description = departmentCodeDTO.Description,
+                        IsActive = true,
+                        CreatedBy = "Admin",
+                        CreatedDate = DateTime.Now
+                    };
+
+                    _context.DepartmentCode.Add(departmentCode);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index), new { success = true });
+                }
             }
 
+            // Jika ada error, kembalikan ke view dan tampilkan error
             return View(departmentCodeDTO);
         }
 
@@ -102,8 +120,7 @@ namespace E_Expedisi_Express.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid newId, DepartmentCodeDTO departmentCodeDTO)
         {
-            var departmentCode = await _context.DepartmentCode
-                .FirstOrDefaultAsync(d => d.NewId == newId);
+            var departmentCode = await _context.DepartmentCode.FirstOrDefaultAsync(d => d.NewId == newId);
 
             if (departmentCode == null)
             {
@@ -112,8 +129,27 @@ namespace E_Expedisi_Express.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                // Cek apakah ada nama department yang sama, kecuali yang sedang diedit
+                var nameExists = await _context.DepartmentCode
+                    .AnyAsync(d => d.Name == departmentCodeDTO.Name && d.NewId != newId);
+
+                // Cek apakah ada kode department yang sama, kecuali yang sedang diedit
+                var codeExists = await _context.DepartmentCode
+                    .AnyAsync(d => d.Code == departmentCodeDTO.Code && d.NewId != newId);
+
+                if (nameExists)
                 {
+                    ModelState.AddModelError("Name", "Department name already exists.");
+                }
+
+                if (codeExists)
+                {
+                    ModelState.AddModelError("Code", "Department code already exists.");
+                }
+
+                if (!nameExists && !codeExists)
+                {
+                    // Update data department
                     departmentCode.Name = departmentCodeDTO.Name;
                     departmentCode.Code = departmentCodeDTO.Code;
                     departmentCode.Description = departmentCodeDTO.Description;
@@ -126,38 +162,9 @@ namespace E_Expedisi_Express.Controllers
 
                     return RedirectToAction(nameof(Index), new { success = true });
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!_context.DepartmentCode.Any(e => e.NewId == newId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
             }
 
             return View(departmentCodeDTO);
-        }
-
-
-
-        // POST: DepartmentCode/CheckDuplicate
-        [HttpPost]
-        public JsonResult CheckDuplicate(string name, string code, Guid? newId = null)
-        {
-            // Pengecekan duplikat nama, abaikan record yang sedang diedit (newId)
-            bool nameExists = _context.DepartmentCode
-                .Any(d => d.Name == name && d.NewId != newId);
-
-            // Pengecekan duplikat kode, abaikan record yang sedang diedit (newId)
-            bool codeExists = _context.DepartmentCode
-                .Any(d => d.Code == code && d.NewId != newId);
-
-            // Return hasil pengecekan dalam bentuk JSON
-            return Json(new { nameExists = nameExists, codeExists = codeExists });
         }
 
     }

@@ -39,25 +39,25 @@
 
                                 <div class="form-group">
                                     <label asp-for="Name">Department</label>
-                                    <input asp-for="Name" id="nameInput" class="form-control" placeholder="Department Name" required />
+                                    <input asp-for="Name" class="form-control" placeholder="Department Name" required />
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
-                                    <label asp-for="Code"></label>
-                                    <input asp-for="Code" id="codeInput" class="form-control" placeholder="Department Code" required />
+                                    <label asp-for="Code">Department Code</label>
+                                    <input asp-for="Code" class="form-control" placeholder="Department Code" required />
                                     <span asp-validation-for="Code" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
-                                    <label asp-for="Description"></label>
+                                    <label asp-for="Description">Description</label>
                                     <input asp-for="Description" class="form-control" placeholder="The Description goes here" required />
                                     <span asp-validation-for="Description" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group d-flex justify-content-end mt-5">
                                     <a href="/DepartmentCode" class="btn btn-secondary mr-3">Cancel</a>
-                                    <button type="submit" id="submitButton" class="btn btn-success">Submit</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </form>
                         </div>
