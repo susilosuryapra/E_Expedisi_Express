@@ -9,6 +9,7 @@ namespace E_Expedisi_Express.Data
         {
         }
 
-        public DbSet<DepartmentCode> DepartmentCode { get; set; }
+        public DbSet<DepartmentCodeModel> DepartmentCode { get; set; }
+        public DbSet<OfficialReport> OfficialReport { get; set; }
     }
 }

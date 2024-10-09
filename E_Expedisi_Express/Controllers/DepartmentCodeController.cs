@@ -21,21 +21,19 @@ namespace E_Expedisi_Express.Controllers
         // GET: DepartmentCode
         public async Task<IActionResult> Index()
         {
-            // Ambil data dari database
             var departmentCodes = await _context.DepartmentCode.ToListAsync();
 
-            // Memetakan dari entity ke DTO
             var departmentCodeDTOs = departmentCodes.Select(d => new DepartmentCodeDTO
             {
-                Id = d.Id,
                 NewId = d.NewId,
-                Name = d.Name,
-                Code = d.Code,
+                DepartmentName = d.DepartmentName,  // Renamed
+                DepartmentCode = d.DepartmentCode,  // Renamed
                 Description = d.Description,
+                CompCode = d.CompCode ?? "N/A", // Set nilai default jika null
+                DivCode = d.DivCode ?? "N/A", // Set nilai default jika null
                 IsActive = d.IsActive
             }).ToList();
 
-            // Kirim list DTO ke View
             return View(departmentCodeDTOs);
         }
 
@@ -52,28 +50,29 @@ namespace E_Expedisi_Express.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Cek duplikasi nama department
-                var nameExists = await _context.DepartmentCode.AnyAsync(d => d.Name == departmentCodeDTO.Name);
-                var codeExists = await _context.DepartmentCode.AnyAsync(d => d.Code == departmentCodeDTO.Code);
+                var nameExists = await _context.DepartmentCode.AnyAsync(d => d.DepartmentName == departmentCodeDTO.DepartmentName);
+                var codeExists = await _context.DepartmentCode.AnyAsync(d => d.DepartmentCode == departmentCodeDTO.DepartmentCode);
 
                 if (nameExists)
                 {
-                    ModelState.AddModelError("Name", "Department name already exists.");
+                    ModelState.AddModelError("DepartmentName", "Department name already exists.");
                 }
 
                 if (codeExists)
                 {
-                    ModelState.AddModelError("Code", "Department code already exists.");
+                    ModelState.AddModelError("DepartmentCode", "Department code already exists.");
                 }
 
-                // Jika tidak ada error, lanjutkan penyimpanan ke database
                 if (!nameExists && !codeExists)
                 {
-                    var departmentCode = new DepartmentCode
+                    var departmentCode = new DepartmentCodeModel
                     {
-                        Name = departmentCodeDTO.Name,
-                        Code = departmentCodeDTO.Code,
+                        NewId = Guid.NewGuid().ToString(),
+                        DepartmentName = departmentCodeDTO.DepartmentName,
+                        DepartmentCode = departmentCodeDTO.DepartmentCode,
                         Description = departmentCodeDTO.Description,
+                        CompCode = departmentCodeDTO.CompCode,
+                        DivCode = departmentCodeDTO.DivCode,
                         IsActive = true,
                         CreatedBy = "Admin",
                         CreatedDate = DateTime.Now
@@ -86,14 +85,11 @@ namespace E_Expedisi_Express.Controllers
                 }
             }
 
-            // Jika ada error, kembalikan ke view dan tampilkan error
             return View(departmentCodeDTO);
         }
 
-
-
         // GET: DepartmentCode/Edit/{newId}
-        public async Task<IActionResult> Edit(Guid newId)
+        public async Task<IActionResult> Edit(string newId)
         {
             var departmentCode = await _context.DepartmentCode.FirstOrDefaultAsync(d => d.NewId == newId);
 
@@ -104,11 +100,12 @@ namespace E_Expedisi_Express.Controllers
 
             var departmentCodeDTO = new DepartmentCodeDTO
             {
-                Id = departmentCode.Id,
                 NewId = departmentCode.NewId,
-                Name = departmentCode.Name,
-                Code = departmentCode.Code,
+                DepartmentName = departmentCode.DepartmentName,
+                DepartmentCode = departmentCode.DepartmentCode,
                 Description = departmentCode.Description,
+                CompCode = departmentCode.CompCode,
+                DivCode = departmentCode.DivCode,
                 IsActive = departmentCode.IsActive
             };
 
@@ -118,7 +115,7 @@ namespace E_Expedisi_Express.Controllers
         // POST: DepartmentCode/Edit/{newId}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid newId, DepartmentCodeDTO departmentCodeDTO)
+        public async Task<IActionResult> Edit(string newId, DepartmentCodeDTO departmentCodeDTO)
         {
             var departmentCode = await _context.DepartmentCode.FirstOrDefaultAsync(d => d.NewId == newId);
 
@@ -129,30 +126,29 @@ namespace E_Expedisi_Express.Controllers
 
             if (ModelState.IsValid)
             {
-                // Cek apakah ada nama department yang sama, kecuali yang sedang diedit
                 var nameExists = await _context.DepartmentCode
-                    .AnyAsync(d => d.Name == departmentCodeDTO.Name && d.NewId != newId);
+                    .AnyAsync(d => d.DepartmentName == departmentCodeDTO.DepartmentName && d.NewId != newId);
 
-                // Cek apakah ada kode department yang sama, kecuali yang sedang diedit
                 var codeExists = await _context.DepartmentCode
-                    .AnyAsync(d => d.Code == departmentCodeDTO.Code && d.NewId != newId);
+                    .AnyAsync(d => d.DepartmentCode == departmentCodeDTO.DepartmentCode && d.NewId != newId);
 
                 if (nameExists)
                 {
-                    ModelState.AddModelError("Name", "Department name already exists.");
+                    ModelState.AddModelError("DepartmentName", "Department name already exists.");
                 }
 
                 if (codeExists)
                 {
-                    ModelState.AddModelError("Code", "Department code already exists.");
+                    ModelState.AddModelError("DepartmentCode", "Department code already exists.");
                 }
 
                 if (!nameExists && !codeExists)
                 {
-                    // Update data department
-                    departmentCode.Name = departmentCodeDTO.Name;
-                    departmentCode.Code = departmentCodeDTO.Code;
+                    departmentCode.DepartmentName = departmentCodeDTO.DepartmentName;
+                    departmentCode.DepartmentCode = departmentCodeDTO.DepartmentCode;
                     departmentCode.Description = departmentCodeDTO.Description;
+                    departmentCode.CompCode = departmentCodeDTO.CompCode;
+                    departmentCode.DivCode = departmentCodeDTO.DivCode;
                     departmentCode.IsActive = departmentCodeDTO.IsActive;
                     departmentCode.UpdatedBy = "AdminEdit";
                     departmentCode.UpdatedDate = DateTime.Now;
@@ -166,6 +162,5 @@ namespace E_Expedisi_Express.Controllers
 
             return View(departmentCodeDTO);
         }
-
     }
 }

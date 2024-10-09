@@ -2,11 +2,12 @@
 {
     public class DepartmentCodeDTO
     {
-        public int Id { get; set; }
-        public Guid? NewId { get; set; }
-        public string Name { get; set; }
-        public string Code { get; set; }
+        public string NewId { get; set; }
+        public string DepartmentName { get; set; }  // Renamed from 'Name'
+        public string DepartmentCode { get; set; }  // Renamed from 'Code'
         public string Description { get; set; }
+        public string? CompCode { get; set; }  // Added field
+        public string? DivCode { get; set; }   // Added field
         public bool IsActive { get; set; }
     }
 }
