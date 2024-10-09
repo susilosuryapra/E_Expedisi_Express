@@ -91,6 +91,8 @@
     <script src="~/AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="~/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/AdminLTE/plugins/sweetalert2/sweetalert2.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $('#departmentCodesTable').DataTable({
@@ -98,5 +100,27 @@
                 "autoWidth": false,
             });
         });
+    </script>
+
+    <script>
+        // Cek query string untuk flag success
+        const urlParams = new URLSearchParams(window.location.search);
+        const success = urlParams.get('success');
+
+        // Jika sukses, tampilkan SweetAlert
+        if (success) {
+            // Hapus query string "success=true" dari URL
+            const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.replaceState({ path: newUrl }, '', newUrl);
+
+            Swal.fire({
+                title: 'Success!',
+                text: 'Data has been successfully saved.',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                timer: 3000,  // Tampilkan selama 3 detik
+                timerProgressBar: true
+            });
+        }
     </script>
 }
