@@ -16,7 +16,7 @@
                                 <a href="/OfficialReport">Official Report</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <a href="/OfficialReport/Edit/@Model.Id">Edit Official Report</a>
+                                <a href="/OfficialReport/Create">Edit Official Report</a>
                             </li>
                         </ol>
                     </nav>
@@ -25,67 +25,57 @@
         </div>
     </div>
 
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
+
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <h4>Update Official Report / <span class="font-italic">Update Berita Acara</span></h4>
-                                    <p class="paragraph-custom">Be sure to update the correct and valid data</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <div>
-                                        <p>Creator: @Model.CreatedBy</p>
-                                    </div>
-                                    <div>
-                                        <p>Date Created: @Model.CreatedDate.ToString("dd MMMM yyyy")</p>
-                                    </div>
-                                    <div>
-                                        <p>Status: @(Model.IsActive ? "Active" : "Inactive")</p>
-                                    </div>
+                                    <h4>Edit Official Report / <span class="font-italic">Edit Berita Acara</span></h4>
+                                    <p class="paragraph-custom">Be sure to input the correct and valid data</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="card-body">
                             <form asp-action="Edit" method="post" class="needs-validation" novalidate>
+                                <input type="hidden" asp-for="Id" />
+                                <input type="hidden" asp-for="NewId" />
 
-                                <!-- Title Section -->
-                                <h5 class="mt-4">Title / <span class="font-italic">Judul</span></h5>
+                                <h5 class="mt-4">Title</h5>
                                 <div class="form-group">
-                                    <label asp-for="ReportTitle">Title / Judul</label>
-                                    <input asp-for="ReportTitle" class="form-control" placeholder="Title" required />
+                                    <label asp-for="ReportTitle">Title</label>
+                                    <input asp-for="ReportTitle" class="form-control" required />
                                     <span asp-validation-for="ReportTitle" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label asp-for="DepartmentId">Department Code</label>
-                                        <input asp-for="DepartmentId" class="form-control" placeholder="Department Code" required />
+                                        <input asp-for="DepartmentId" class="form-control" required />
                                         <span asp-validation-for="DepartmentId" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label asp-for="DocumentTypeId">Document Type</label>
-                                        <input asp-for="DocumentTypeId" class="form-control" placeholder="Document Type" required />
+                                        <input asp-for="DocumentTypeId" class="form-control" required />
                                         <span asp-validation-for="DocumentTypeId" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <!-- Giver Section -->
-                                <h5 class="mt-4">Giver / <span class="font-italic">Pemberi</span></h5>
+                                <h5 class="mt-4">Giver</h5>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label asp-for="GiverName">Name</label>
-                                        <input asp-for="GiverName" class="form-control" placeholder="Giver Name" required />
+                                        <input asp-for="GiverName" class="form-control" required />
                                         <span asp-validation-for="GiverName" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label asp-for="GiverCompanyName">Company Name</label>
-                                        <input asp-for="GiverCompanyName" class="form-control" placeholder="Giver Company Name" required />
+                                        <input asp-for="GiverCompanyName" class="form-control" required />
                                         <span asp-validation-for="GiverCompanyName" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -93,35 +83,35 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label asp-for="GiverDepartmentName">Department</label>
-                                        <input asp-for="GiverDepartmentName" class="form-control" placeholder="Giver Department" required />
+                                        <input asp-for="GiverDepartmentName" class="form-control" />
                                         <span asp-validation-for="GiverDepartmentName" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label asp-for="GiverAddress">Address</label>
-                                        <input asp-for="GiverAddress" class="form-control" placeholder="Giver Address" required />
+                                        <input asp-for="GiverAddress" class="form-control" required />
                                         <span asp-validation-for="GiverAddress" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <!-- Content Section -->
-                                <h5 class="mt-4">Content / <span class="font-italic">Isi</span></h5>
+                                <h5 class="mt-4">Content</h5>
                                 <div class="form-group">
                                     <label asp-for="MainDescription">Description</label>
-                                    <textarea asp-for="MainDescription" class="form-control" rows="3" placeholder="Main Description" required></textarea>
+                                    <textarea asp-for="MainDescription" class="form-control" rows="3" required></textarea>
                                     <span asp-validation-for="MainDescription" class="text-danger"></span>
                                 </div>
 
                                 <!-- Receiver Section -->
-                                <h5 class="mt-4">Receiver / <span class="font-italic">Penerima</span></h5>
+                                <h5 class="mt-4">Receiver</h5>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label asp-for="ReceiverName">Name</label>
-                                        <input asp-for="ReceiverName" class="form-control" placeholder="Receiver Name" required />
+                                        <input asp-for="ReceiverName" class="form-control" required />
                                         <span asp-validation-for="ReceiverName" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label asp-for="ReceiverCompanyName">Company Name</label>
-                                        <input asp-for="ReceiverCompanyName" class="form-control" placeholder="Receiver Company Name" required />
+                                        <input asp-for="ReceiverCompanyName" class="form-control" required />
                                         <span asp-validation-for="ReceiverCompanyName" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -129,20 +119,23 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label asp-for="ReceiverDepartmentName">Department</label>
-                                        <input asp-for="ReceiverDepartmentName" class="form-control" placeholder="Receiver Department" />
+                                        <input asp-for="ReceiverDepartmentName" class="form-control" />
                                         <span asp-validation-for="ReceiverDepartmentName" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label asp-for="ReceiverAddress">Address</label>
-                                        <input asp-for="ReceiverAddress" class="form-control" placeholder="Receiver Address" required />
+                                        <input asp-for="ReceiverAddress" class="form-control" required />
                                         <span asp-validation-for="ReceiverAddress" class="text-danger"></span>
                                     </div>
                                 </div>
 
-                                <!-- Save and Publish buttons -->
+                                <!-- Save as Draft and Publish buttons -->
                                 <div class="form-group d-flex mt-5">
-                                    <button type="submit" class="btn btn-secondary mr-3">Save as Draft</button>
-                                    <button type="submit" class="btn btn-success">Save Changes</button>
+                                    <!-- Tombol Save as Draft, dengan value IsPublished = false -->
+                                    <button type="submit" name="submitAction" value="draft" class="btn btn-secondary mr-3">Save as Draft</button>
+
+                                    <!-- Tombol Publish, dengan value IsPublished = true -->
+                                    <button type="submit" name="submitAction" value="publish" class="btn btn-success">Publish</button>
                                 </div>
 
                             </form>

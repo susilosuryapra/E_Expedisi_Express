@@ -24,6 +24,7 @@ namespace E_Expedisi_Express.Controllers
             var reports = await _context.OfficialReports
                 .Select(r => new OfficialReportDTO
                 {
+                    NewId = r.NewId,
                     ReportTitle = r.ReportTitle,
                     GiverName = r.GiverName,
                     ReceiverName = r.ReceiverName,
@@ -83,51 +84,84 @@ namespace E_Expedisi_Express.Controllers
 
 
         // UPDATE (GET)
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string? newId)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(newId))
                 return NotFound();
 
-            var report = await _context.OfficialReports.FindAsync(id);
+            // Cari report berdasarkan NewId
+            var report = await _context.OfficialReports
+                .FirstOrDefaultAsync(r => r.NewId == newId);
+
             if (report == null)
                 return NotFound();
 
             var reportDTO = new OfficialReportDTO
             {
                 Id = report.Id,
+                NewId = report.NewId,
                 ReportTitle = report.ReportTitle,
+                ReportNumber = report.ReportNumber,
+                DocumentTypeId = report.DocumentTypeId,
+                DepartmentId = report.DepartmentId,
                 GiverName = report.GiverName,
+                GiverCompanyName = report.GiverCompanyName,
+                GiverDepartmentName = report.GiverDepartmentName,
+                GiverAddress = report.GiverAddress,
+                MainDescription = report.MainDescription,
                 ReceiverName = report.ReceiverName,
+                ReceiverCompanyName = report.ReceiverCompanyName,
+                ReceiverDepartmentName = report.ReceiverDepartmentName,
+                ReceiverAddress = report.ReceiverAddress,
+                CompCode = report.CompCode,
+                DivCode = report.DivCode,
                 IsActive = report.IsActive,
-                IsPublished = report.IsPublished // Tambahkan ini untuk memeriksa status Published
+                IsPublished = report.IsPublished, // Menambahkan properti untuk mengecek status Published
+                CreatedBy = report.CreatedBy,
+                CreatedDate = (DateTime)report.CreatedDate
             };
-
-            // Kirim status Published ke View
-            ViewBag.IsPublished = report.IsPublished;
 
             return View(reportDTO);
         }
 
 
         // UPDATE (POST)
+        // UPDATE (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, OfficialReportDTO reportDTO)
+        public async Task<IActionResult> Edit(string newId, OfficialReportDTO reportDTO, string submitAction)
         {
-            if (id != reportDTO.Id)
+            if (newId != reportDTO.NewId)
                 return NotFound();
 
             if (ModelState.IsValid)
             {
-                var report = await _context.OfficialReports.FindAsync(id);
+                var report = await _context.OfficialReports
+                    .FirstOrDefaultAsync(r => r.NewId == newId);
+
                 if (report == null)
                     return NotFound();
 
+                // Update properties from DTO
                 report.ReportTitle = reportDTO.ReportTitle;
+                report.DocumentTypeId = reportDTO.DocumentTypeId; // Tambahkan ini
+                report.DepartmentId = reportDTO.DepartmentId; // Tambahkan ini
                 report.GiverName = reportDTO.GiverName;
+                report.GiverCompanyName = reportDTO.GiverCompanyName;
+                report.GiverDepartmentName = reportDTO.GiverDepartmentName; // Tambahkan ini
+                report.GiverAddress = reportDTO.GiverAddress;
+                report.MainDescription = reportDTO.MainDescription;
                 report.ReceiverName = reportDTO.ReceiverName;
+                report.ReceiverCompanyName = reportDTO.ReceiverCompanyName;
+                report.ReceiverDepartmentName = reportDTO.ReceiverDepartmentName; // Tambahkan ini
+                report.ReceiverAddress = reportDTO.ReceiverAddress;
                 report.IsActive = reportDTO.IsActive;
-                report.UpdatedBy = "system"; // Replace with actual user if needed
+
+                // Tentukan apakah report disimpan sebagai Draft atau Published
+                bool isPublished = (submitAction == "publish");
+                report.IsPublished = isPublished; // Menentukan status publish
+
+                report.UpdatedBy = "system"; // Ganti dengan user yang sebenarnya jika diperlukan
                 report.UpdatedDate = DateTime.Now;
 
                 _context.Update(report);
