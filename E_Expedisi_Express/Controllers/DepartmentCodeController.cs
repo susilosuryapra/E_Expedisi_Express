@@ -46,7 +46,7 @@ namespace E_Expedisi_Express.Controllers
         // POST: Add Department Code
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DepartmentCodeDTO departmentCodeDTO)
+        public async Task<IActionResult> Create(DepartmentCodeAddDto departmentCodeDTO)
         {
             if (ModelState.IsValid)
             {
@@ -71,8 +71,8 @@ namespace E_Expedisi_Express.Controllers
                         DepartmentName = departmentCodeDTO.DepartmentName,
                         DepartmentCode = departmentCodeDTO.DepartmentCode,
                         Description = departmentCodeDTO.Description,
-                        CompCode = departmentCodeDTO.CompCode,
-                        DivCode = departmentCodeDTO.DivCode,
+                        CompCode = "01",
+                        DivCode = "KF.036",
                         IsActive = true,
                         CreatedBy = "Admin",
                         CreatedDate = DateTime.Now

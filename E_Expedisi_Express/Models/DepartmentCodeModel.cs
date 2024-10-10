@@ -7,9 +7,10 @@ namespace E_Expedisi_Express.Models
     public class DepartmentCodeModel
     {
         [Key]  // Menandakan bahwa Id adalah Primary Key
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // BIAR OTOMATIS KEISI
         public int Id { get; set; }  // Primary Key bertipe int
 
-        public string NewId { get; set; } // Renamed and set as string
+        public string? NewId { get; set; } // Renamed and set as string
 
         [Required(ErrorMessage = "Please provide a department name.")]
         public string DepartmentName { get; set; }

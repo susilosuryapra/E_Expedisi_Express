@@ -1,4 +1,4 @@
-﻿@model E_Expedisi_Express.Models.OfficialReport
+﻿@model E_Expedisi_Express.DTO.OfficialReportDTO
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -32,46 +32,20 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <h4>Update Official Report / <span class="font-italic">Update Berita Acara</span></h4>
-                                        <p class="paragraph-custom">Be sure to update the correct and valid data</p>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4>Update Official Report / <span class="font-italic">Update Berita Acara</span></h4>
+                                    <p class="paragraph-custom">Be sure to update the correct and valid data</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <div>
+                                        <p>Creator: @Model.CreatedBy</p>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="d-flex justify-content-between">
-                                            <p>Creator</p>
-                                            <p>: </p>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <p>Date Created</p>
-                                            <p>: </p>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <p>Status</p>
-                                            <p>: </p>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <p>Actions</p>
-                                            <p>: </p>
-                                        </div>
+                                    <div>
+                                        <p>Date Created: @Model.CreatedDate.ToString("dd MMMM yyyy")</p>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div>
-                                            <p>UserName</p>
-                                        </div>
-                                        <div>
-                                            <p>@Model.Date.ToString("dd MMMM yyyy")</p>
-                                        </div>
-                                        <div>
-                                            <p>
-                                                <span class="badge badge-success">Publish</span>
-                                                <span class="badge badge-warning">Draft</span>
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p><i class="fas fa-download"></i></p>
-                                        </div>
+                                    <div>
+                                        <p>Status: @(Model.IsActive ? "Active" : "Inactive")</p>
                                     </div>
                                 </div>
                             </div>
@@ -83,19 +57,21 @@
                                 <!-- Title Section -->
                                 <h5 class="mt-4">Title / <span class="font-italic">Judul</span></h5>
                                 <div class="form-group">
-                                    <label asp-for="Title">Title / Judul</label>
-                                    <input asp-for="Title" class="form-control" placeholder="Title" required />
-                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                    <label asp-for="ReportTitle">Title / Judul</label>
+                                    <input asp-for="ReportTitle" class="form-control" placeholder="Title" required />
+                                    <span asp-validation-for="ReportTitle" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label>Department Code</label>
-                                        <input type="text" class="form-control" placeholder="Placeholder" />
+                                        <label asp-for="DepartmentId">Department Code</label>
+                                        <input asp-for="DepartmentId" class="form-control" placeholder="Department Code" required />
+                                        <span asp-validation-for="DepartmentId" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Document Type</label>
-                                        <input type="text" class="form-control" placeholder="Placeholder" />
+                                        <label asp-for="DocumentTypeId">Document Type</label>
+                                        <input asp-for="DocumentTypeId" class="form-control" placeholder="Document Type" required />
+                                        <span asp-validation-for="DocumentTypeId" class="text-danger"></span>
                                     </div>
                                 </div>
 
@@ -103,61 +79,69 @@
                                 <h5 class="mt-4">Giver / <span class="font-italic">Pemberi</span></h5>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label asp-for="Giver">Name</label>
-                                        <input asp-for="Giver" class="form-control" placeholder="Placeholder" required />
-                                        <span asp-validation-for="Giver" class="text-danger"></span>
+                                        <label asp-for="GiverName">Name</label>
+                                        <input asp-for="GiverName" class="form-control" placeholder="Giver Name" required />
+                                        <span asp-validation-for="GiverName" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Company Name</label>
-                                        <input type="text" class="form-control" placeholder="Placeholder" />
+                                        <label asp-for="GiverCompanyName">Company Name</label>
+                                        <input asp-for="GiverCompanyName" class="form-control" placeholder="Giver Company Name" required />
+                                        <span asp-validation-for="GiverCompanyName" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label>Department</label>
-                                        <input type="text" class="form-control" placeholder="Placeholder" />
+                                        <label asp-for="GiverDepartmentName">Department</label>
+                                        <input asp-for="GiverDepartmentName" class="form-control" placeholder="Giver Department" required />
+                                        <span asp-validation-for="GiverDepartmentName" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Address</label>
-                                        <input type="text" class="form-control" placeholder="Placeholder" />
+                                        <label asp-for="GiverAddress">Address</label>
+                                        <input asp-for="GiverAddress" class="form-control" placeholder="Giver Address" required />
+                                        <span asp-validation-for="GiverAddress" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <!-- Content Section -->
                                 <h5 class="mt-4">Content / <span class="font-italic">Isi</span></h5>
                                 <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea class="form-control" rows="3" placeholder="Placeholder"></textarea>
+                                    <label asp-for="MainDescription">Description</label>
+                                    <textarea asp-for="MainDescription" class="form-control" rows="3" placeholder="Main Description" required></textarea>
+                                    <span asp-validation-for="MainDescription" class="text-danger"></span>
                                 </div>
 
                                 <!-- Receiver Section -->
                                 <h5 class="mt-4">Receiver / <span class="font-italic">Penerima</span></h5>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label>Name</label>
-                                        <input type="text" class="form-control" placeholder="Placeholder" />
+                                        <label asp-for="ReceiverName">Name</label>
+                                        <input asp-for="ReceiverName" class="form-control" placeholder="Receiver Name" required />
+                                        <span asp-validation-for="ReceiverName" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Company Name</label>
-                                        <input type="text" class="form-control" placeholder="Placeholder" />
+                                        <label asp-for="ReceiverCompanyName">Company Name</label>
+                                        <input asp-for="ReceiverCompanyName" class="form-control" placeholder="Receiver Company Name" required />
+                                        <span asp-validation-for="ReceiverCompanyName" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label>Department</label>
-                                        <input type="text" class="form-control" placeholder="if empty, input '-'">
+                                        <label asp-for="ReceiverDepartmentName">Department</label>
+                                        <input asp-for="ReceiverDepartmentName" class="form-control" placeholder="Receiver Department" />
+                                        <span asp-validation-for="ReceiverDepartmentName" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Address</label>
-                                        <input type="text" class="form-control" placeholder="Placeholder">
+                                        <label asp-for="ReceiverAddress">Address</label>
+                                        <input asp-for="ReceiverAddress" class="form-control" placeholder="Receiver Address" required />
+                                        <span asp-validation-for="ReceiverAddress" class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <!-- Save and Publish buttons -->
                                 <div class="form-group d-flex mt-5">
-                                    <button type="button" class="btn btn-secondary mr-3">Save as Draft</button>
+                                    <button type="submit" class="btn btn-secondary mr-3">Save as Draft</button>
                                     <button type="submit" class="btn btn-success">Save Changes</button>
                                 </div>
 

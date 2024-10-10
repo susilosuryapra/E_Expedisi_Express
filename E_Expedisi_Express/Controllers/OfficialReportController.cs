@@ -1,11 +1,11 @@
-﻿using E_Expedisi_Express.Models;
-using E_Expedisi_Express.DTO;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using E_Expedisi_Express.Data;
+using E_Expedisi_Express.DTO;
+using E_Expedisi_Express.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System.Linq;
+using System;
 
 namespace E_Expedisi_Express.Controllers
 {
@@ -18,107 +18,102 @@ namespace E_Expedisi_Express.Controllers
             _context = context;
         }
 
-        // GET: OfficialReport
+        // READ (Index)
         public async Task<IActionResult> Index()
         {
-            var officialReports = await _context.OfficialReport.ToListAsync();
-            var officialReportDTOs = officialReports.Select(o => new OfficialReportDTO
-            {
-                Id = o.Id,
-                NewId = o.NewId,
-                Title = o.Title,
-                Giver = o.Giver,
-                Receiver = o.Receiver,
-                Date = o.Date,
-                Status = o.Status
-            }).ToList();
+            var reports = await _context.OfficialReports
+                .Select(r => new OfficialReportDTO
+                {
+                    ReportTitle = r.ReportTitle,
+                    GiverName = r.GiverName,
+                    ReceiverName = r.ReceiverName,
+                    CreatedDate = r.CreatedDate ?? DateTime.Now,
+                    IsActive = r.IsActive
+                }).ToListAsync();
 
-            return View(officialReportDTOs);
+            return View(reports);
         }
 
-        // GET: OfficialReport/Create
+        // CREATE (GET)
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: OfficialReport/Create
+        // CREATE (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(OfficialReportDTO officialReportDTO)
+        public async Task<IActionResult> Create(OfficialReportDTO reportDTO)
         {
             if (ModelState.IsValid)
             {
-                var officialReport = new OfficialReport
+                var report = new OfficialReport
                 {
-                    Title = officialReportDTO.Title,
-                    Giver = officialReportDTO.Giver,
-                    Receiver = officialReportDTO.Receiver,
-                    Date = officialReportDTO.Date,
-                    Status = officialReportDTO.Status,
-                    CreatedBy = "Admin",
-                    CreatedDate = DateTime.Now
+                    NewId = Guid.NewGuid(),
+                    ReportTitle = reportDTO.ReportTitle,
+                    GiverName = reportDTO.GiverName,
+                    ReceiverName = reportDTO.ReceiverName,
+                    CreatedBy = "system",
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
                 };
 
-                _context.OfficialReport.Add(officialReport);
+                _context.Add(report);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { success = true });
+                return RedirectToAction(nameof(Index));
             }
-
-            return View(officialReportDTO);
+            return View(reportDTO);
         }
 
-        // GET: OfficialReport/Edit/{newId}
-        public async Task<IActionResult> Edit(Guid newId)
+        // UPDATE (GET)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var officialReport = await _context.OfficialReport.FirstOrDefaultAsync(o => o.NewId == newId);
-            if (officialReport == null)
-            {
+            if (id == null)
                 return NotFound();
-            }
 
-            var officialReportDTO = new OfficialReportDTO
+            var report = await _context.OfficialReports.FindAsync(id);
+            if (report == null)
+                return NotFound();
+
+            var reportDTO = new OfficialReportDTO
             {
-                Id = officialReport.Id,
-                NewId = officialReport.NewId,
-                Title = officialReport.Title,
-                Giver = officialReport.Giver,
-                Receiver = officialReport.Receiver,
-                Date = officialReport.Date,
-                Status = officialReport.Status
+                Id = report.Id,
+                ReportTitle = report.ReportTitle,
+                GiverName = report.GiverName,
+                ReceiverName = report.ReceiverName,
+                IsActive = report.IsActive
             };
 
-            return View(officialReportDTO);
+            return View(reportDTO);
         }
 
-        // POST: OfficialReport/Edit/{newId}
+        // UPDATE (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid newId, OfficialReportDTO officialReportDTO)
+        public async Task<IActionResult> Edit(int id, OfficialReportDTO reportDTO)
         {
-            var officialReport = await _context.OfficialReport.FirstOrDefaultAsync(o => o.NewId == newId);
-            if (officialReport == null)
-            {
+            if (id != reportDTO.Id)
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
-                officialReport.Title = officialReportDTO.Title;
-                officialReport.Giver = officialReportDTO.Giver;
-                officialReport.Receiver = officialReportDTO.Receiver;
-                officialReport.Date = officialReportDTO.Date;
-                officialReport.Status = officialReportDTO.Status;
-                officialReport.UpdatedBy = "AdminEdit";
-                officialReport.UpdatedDate = DateTime.Now;
+                var report = await _context.OfficialReports.FindAsync(id);
+                if (report == null)
+                    return NotFound();
 
-                _context.Update(officialReport);
+                report.ReportTitle = reportDTO.ReportTitle;
+                report.GiverName = reportDTO.GiverName;
+                report.ReceiverName = reportDTO.ReceiverName;
+                report.IsActive = reportDTO.IsActive;
+                report.UpdatedBy = "system"; // Replace with actual user if needed
+                report.UpdatedDate = DateTime.Now;
+
+                _context.Update(report);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index), new { success = true });
+                return RedirectToAction(nameof(Index));
             }
-
-            return View(officialReportDTO);
+            return View(reportDTO);
         }
     }
 }
