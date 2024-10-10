@@ -128,8 +128,11 @@
 
                                 <!-- Save and Publish buttons -->
                                 <div class="form-group d-flex mt-5">
-                                    <button type="button" class="btn btn-secondary mr-3">Save as Draft</button>
-                                    <button type="submit" class="btn btn-success">Publish</button>
+                                    <!-- Tombol Save as Draft, dengan value IsPublished = false -->
+                                    <button type="submit" name="submitAction" value="draft" class="btn btn-secondary mr-3">Save as Draft</button>
+
+                                    <!-- Tombol Publish, dengan value IsPublished = true -->
+                                    <button type="submit" name="submitAction" value="publish" class="btn btn-success">Publish</button>
                                 </div>
 
                             </form>

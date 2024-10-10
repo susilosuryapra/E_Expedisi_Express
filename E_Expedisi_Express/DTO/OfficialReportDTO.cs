@@ -24,5 +24,6 @@
         public string? UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public bool IsActive { get; set; }
+        public bool IsPublished { get; set; }
     }
 }

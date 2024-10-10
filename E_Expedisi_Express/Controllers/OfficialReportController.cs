@@ -43,19 +43,23 @@ namespace E_Expedisi_Express.Controllers
         // CREATE (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(OfficialReportDTO reportDTO)
+        public async Task<IActionResult> Create(OfficialReportDTO reportDTO, string submitAction)
         {
             if (ModelState.IsValid)
             {
+                // Tentukan apakah report disimpan sebagai Draft atau Published
+                bool isPublished = (submitAction == "publish");
+
                 var report = new OfficialReport
                 {
                     NewId = Guid.NewGuid(),
                     ReportTitle = reportDTO.ReportTitle,
                     GiverName = reportDTO.GiverName,
                     ReceiverName = reportDTO.ReceiverName,
-                    CreatedBy = "system",
+                    CreatedBy = "system", // Replace with actual user if needed
                     CreatedDate = DateTime.Now,
-                    IsActive = true
+                    IsActive = true,
+                    IsPublished = isPublished // True for Published, False for Draft
                 };
 
                 _context.Add(report);
@@ -64,6 +68,7 @@ namespace E_Expedisi_Express.Controllers
             }
             return View(reportDTO);
         }
+
 
         // UPDATE (GET)
         public async Task<IActionResult> Edit(int? id)
