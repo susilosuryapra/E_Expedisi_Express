@@ -3,7 +3,7 @@
     public class OfficialReportDTO
     {
         public int Id { get; set; }
-        public Guid NewId { get; set; }
+        public string? NewId { get; set; }
         public string ReportTitle { get; set; }
         public string? ReportNumber { get; set; }
         public int DocumentTypeId { get; set; }

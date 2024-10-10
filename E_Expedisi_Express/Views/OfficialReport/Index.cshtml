@@ -58,9 +58,18 @@
                                                 <td>@item.CreatedDate.ToString("yyyy-MM-dd")</td>
                                                 <td>@(item.IsActive ? "Active" : "Inactive")</td>
                                                 <td class="text-center align-middle">
-                                                    <a href="/OfficialReport/Edit/@item.Id" class="btn btn-sm btn-success">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
+                                                    @if (item.IsPublished)
+                                                    {
+                                                        <a href="/OfficialReport/Edit/@item.Id" class="btn btn-sm btn-info">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/OfficialReport/Edit/@item.Id" class="btn btn-sm btn-success">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    }
                                                 </td>
                                             </tr>
                                             Count++;

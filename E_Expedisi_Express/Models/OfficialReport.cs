@@ -12,7 +12,7 @@ namespace E_Expedisi_Express.Models
         public int Id { get; set; }
 
         // Automatically generate Guid for NewId
-        public Guid? NewId { get; set; }
+        public string? NewId { get; set; }
 
         [Required(ErrorMessage = "Please provide a report title.")]
         public string ReportTitle { get; set; }

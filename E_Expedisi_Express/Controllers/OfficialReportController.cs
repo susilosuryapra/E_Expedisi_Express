@@ -52,14 +52,26 @@ namespace E_Expedisi_Express.Controllers
 
                 var report = new OfficialReport
                 {
-                    NewId = Guid.NewGuid(),
+                    NewId = Guid.NewGuid().ToString(),
                     ReportTitle = reportDTO.ReportTitle,
                     GiverName = reportDTO.GiverName,
+                    GiverCompanyName = reportDTO.GiverCompanyName,
+                    GiverDepartmentName = reportDTO.GiverDepartmentName,
+                    GiverAddress = reportDTO.GiverAddress,
+                    MainDescription = reportDTO.MainDescription,
                     ReceiverName = reportDTO.ReceiverName,
+                    ReceiverCompanyName = reportDTO.ReceiverCompanyName,
+                    ReceiverDepartmentName = reportDTO.ReceiverDepartmentName,
+                    ReceiverAddress = reportDTO.ReceiverAddress,
                     CreatedBy = "system", // Replace with actual user if needed
                     CreatedDate = DateTime.Now,
                     IsActive = true,
-                    IsPublished = isPublished // True for Published, False for Draft
+                    IsPublished = isPublished, // True for Published, False for Draft
+                    ReportNumber = "REP-2024-004",
+                    CompCode = "01",
+                    DivCode = "KF.036",
+                    DepartmentId = reportDTO.DepartmentId,
+                    DocumentTypeId = reportDTO.DocumentTypeId
                 };
 
                 _context.Add(report);
@@ -86,11 +98,16 @@ namespace E_Expedisi_Express.Controllers
                 ReportTitle = report.ReportTitle,
                 GiverName = report.GiverName,
                 ReceiverName = report.ReceiverName,
-                IsActive = report.IsActive
+                IsActive = report.IsActive,
+                IsPublished = report.IsPublished // Tambahkan ini untuk memeriksa status Published
             };
+
+            // Kirim status Published ke View
+            ViewBag.IsPublished = report.IsPublished;
 
             return View(reportDTO);
         }
+
 
         // UPDATE (POST)
         [HttpPost]
