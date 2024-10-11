@@ -6,6 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.Layout.Borders;
 
 namespace E_Expedisi_Express.Controllers
 {
@@ -179,5 +184,135 @@ namespace E_Expedisi_Express.Controllers
             }
             return View(reportDTO);
         }
+
+
+        public async Task<IActionResult> DownloadPdf(string? newId)
+        {
+            if (string.IsNullOrEmpty(newId))
+                return NotFound();
+
+            // Ambil data report dari database
+            var report = await _context.OfficialReports.FirstOrDefaultAsync(r => r.NewId == newId);
+            if (report == null)
+                return NotFound();
+
+            // Siapkan memory stream untuk menyimpan PDF
+            using (var memoryStream = new System.IO.MemoryStream())
+            {
+                // Buat PDF menggunakan iText7
+                PdfWriter writer = new PdfWriter(memoryStream);
+                PdfDocument pdf = new PdfDocument(writer);
+                Document document = new Document(pdf);
+
+                // 1. Bagian Judul dan Nomor Dokumen
+                document.Add(new Paragraph($"{report.ReportTitle}")
+                    .SetFontSize(18)
+                    .SetBold()
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+
+                document.Add(new Paragraph($"{report.ReportNumber}")
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                    .SetMarginBottom(20)); // Menambah spasi bawah
+
+                // 2. Bagian Teks Pemberitahuan
+                document.Add(new Paragraph("Kami yang bertanda tangan dibawah ini:")
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetMarginBottom(10));
+
+                // 3. Tabel untuk bagian Pemberi (Giver) tanpa border
+                Table giverTable = new Table(new float[] { 1, 5 }); // Kolom dengan lebar 1:5
+                giverTable.SetWidth(UnitValue.CreatePercentValue(100)); // Tabel selebar halaman penuh
+
+                giverTable.AddCell(CreateCellNoBorder("Nama"));
+                giverTable.AddCell(CreateCellNoBorder($": {report.GiverName}"));
+
+                giverTable.AddCell(CreateCellNoBorder("Department"));
+                giverTable.AddCell(CreateCellNoBorder($": {report.GiverDepartmentName}"));
+
+                giverTable.AddCell(CreateCellNoBorder("Company"));
+                giverTable.AddCell(CreateCellNoBorder($": {report.GiverCompanyName}"));
+
+                document.Add(giverTable);
+                document.Add(new Paragraph(" ").SetMarginBottom(20)); // Menambah spasi antar elemen
+
+                // 4. Bagian Deskripsi Pernyataan
+                document.Add(new Paragraph(report.MainDescription)
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetMarginBottom(30)); // Spasi untuk deskripsi
+
+                // 5. Bagian Teks Kepada
+                document.Add(new Paragraph("Kepada:")
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetMarginBottom(10)); // Spasi bawah untuk memisahkan dengan penerima
+
+                // 6. Tabel untuk bagian Penerima (Receiver) tanpa border
+                Table receiverTable = new Table(new float[] { 1, 5 }); // Kolom dengan lebar 1:5
+                receiverTable.SetWidth(UnitValue.CreatePercentValue(100)); // Tabel selebar halaman penuh
+
+                receiverTable.AddCell(CreateCellNoBorder("Nama"));
+                receiverTable.AddCell(CreateCellNoBorder($": {report.ReceiverName}"));
+
+                receiverTable.AddCell(CreateCellNoBorder("   Department"));
+                receiverTable.AddCell(CreateCellNoBorder($": {report.ReceiverDepartmentName}"));
+
+                receiverTable.AddCell(CreateCellNoBorder("   Company"));
+                receiverTable.AddCell(CreateCellNoBorder($": {report.ReceiverCompanyName}"));
+
+                document.Add(receiverTable);
+                document.Add(new Paragraph(" ").SetMarginBottom(40)); // Spasi antara penerima dan tanda tangan
+
+                // 7. Bagian Tanda Tangan tanpa border
+                Table signatureTable = new Table(2); // Tabel untuk 2 kolom
+                signatureTable.SetWidth(UnitValue.CreatePercentValue(100)); // Selebar halaman penuh
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("1. Yang menyerahkan,")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("2. Yang menerima,")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                // Baris tanda tangan kosong
+                signatureTable.AddCell(new Cell().Add(new Paragraph("(                                )")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("(                                )")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                document.Add(signatureTable);
+
+                // Tutup document dan PDF setelah selesai menulis
+                document.Close();
+                pdf.Close();
+                writer.Close();
+
+                // Ambil byte array dari MemoryStream
+                var bytes = memoryStream.ToArray();
+
+                // Kembalikan file PDF sebagai download
+                return File(bytes, "application/pdf", "OfficialReport.pdf");
+            }
+        }
+
+        // Helper function untuk membuat cell dalam tabel tanpa border
+        private Cell CreateCellNoBorder(string content)
+        {
+            return new Cell().Add(new Paragraph(content)
+                .SetFontSize(12)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBorder(Border.NO_BORDER)); // Hilangkan border pada cell
+        }
+
+
+
+
+
     }
 }

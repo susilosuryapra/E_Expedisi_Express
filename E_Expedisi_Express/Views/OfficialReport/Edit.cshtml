@@ -79,7 +79,9 @@
                                     <div>
                                         @if (Model.IsPublished)
                                         {
-                                            <p><i class="fas fa-download"></i></p>
+                                            <a href="@Url.Action("DownloadPdf", "OfficialReport", new { newId = Model.NewId })" title="Download PDF">
+                                                <i class="fas fa-download"></i>
+                                            </a>
                                         }
                                     </div>
                                 </div>
