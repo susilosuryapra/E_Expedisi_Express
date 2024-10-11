@@ -29,7 +29,8 @@ namespace E_Expedisi_Express.Controllers
                     GiverName = r.GiverName,
                     ReceiverName = r.ReceiverName,
                     CreatedDate = r.CreatedDate ?? DateTime.Now,
-                    IsActive = r.IsActive
+                    IsActive = r.IsActive,
+                    IsPublished = r.IsPublished
                 }).ToListAsync();
 
             return View(reports);
@@ -77,6 +78,8 @@ namespace E_Expedisi_Express.Controllers
 
                 _context.Add(report);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = isPublished ? "Official Report published successfully!" : "Official Report saved as draft successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(reportDTO);
@@ -126,7 +129,6 @@ namespace E_Expedisi_Express.Controllers
 
 
         // UPDATE (POST)
-        // UPDATE (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string newId, OfficialReportDTO reportDTO, string submitAction)
@@ -161,13 +163,19 @@ namespace E_Expedisi_Express.Controllers
                 bool isPublished = (submitAction == "publish");
                 report.IsPublished = isPublished; // Menentukan status publish
 
-                report.UpdatedBy = "system"; // Ganti dengan user yang sebenarnya jika diperlukan
+                report.UpdatedBy = "SystemEdit"; // Ganti dengan user yang sebenarnya jika diperlukan
                 report.UpdatedDate = DateTime.Now;
 
                 _context.Update(report);
                 await _context.SaveChangesAsync();
 
+                TempData["SuccessMessage"] = isPublished ? "Official Report updated and published successfully!" : "Official Report updated and saved as draft successfully!";
+
                 return RedirectToAction(nameof(Index));
+            }
+            foreach (var entry in ModelState)
+            {
+                Console.WriteLine($"{entry.Key}: {string.Join(", ", entry.Value.Errors.Select(e => e.ErrorMessage))}");
             }
             return View(reportDTO);
         }

@@ -51,10 +51,13 @@
                                         <p>Status</p>
                                         <p>: </p>
                                     </div>
-                                    <div class="d-flex justify-content-between">
-                                        <p>Actions</p>
-                                        <p>: </p>
-                                    </div>
+                                    @if (Model.IsPublished)
+                                    {
+                                        <div class="d-flex justify-content-between">
+                                            <p>Actions</p>
+                                            <p>: </p>
+                                        </div>
+                                    }
                                 </div>
                                 <div class="col-md-2">
                                     <div>
@@ -64,13 +67,20 @@
                                         <p>30 September 2024</p>
                                     </div>
                                     <div>
-                                        <p>
-                                            <span class="badge badge-success">Publish</span>
-                                            <span class="badge badge-warning">Draft</span>
-                                        </p>
+                                        @if (Model.IsPublished)
+                                        {
+                                            <p><span class="badge badge-success">Published</span></p>
+                                        }
+                                        else
+                                        {
+                                            <p><span class="badge badge-warning">Draft</span></p>
+                                        }
                                     </div>
                                     <div>
-                                        <p><i class="fas fa-download"></i></p>
+                                        @if (Model.IsPublished)
+                                        {
+                                            <p><i class="fas fa-download"></i></p>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -167,11 +177,14 @@
 
                                 <!-- Save as Draft and Publish buttons -->
                                 <div class="form-group d-flex mt-5">
-                                    <!-- Tombol Save as Draft, dengan value IsPublished = false -->
-                                    <button type="submit" name="submitAction" value="draft" class="btn btn-secondary mr-3">Save as Draft</button>
+                                    @if (!Model.IsPublished)
+                                    {
+                                        <!-- Tombol Save as Draft, dengan value IsPublished = false -->
+                                        <button type="submit" name="submitAction" value="draft" class="btn btn-secondary mr-3">Save as Draft</button>
 
-                                    <!-- Tombol Publish, dengan value IsPublished = true -->
-                                    <button type="submit" name="submitAction" value="publish" class="btn btn-success">Publish</button>
+                                        <!-- Tombol Publish, dengan value IsPublished = true -->
+                                        <button type="submit" name="submitAction" value="publish" class="btn btn-success">Publish</button>
+                                    }
                                 </div>
 
                             </form>
@@ -182,3 +195,43 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/AdminLTE/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector('form');
+
+            form.addEventListener('submit', function (event) {
+                const submitAction = event.submitter.value; // Mendapatkan tombol mana yang ditekan (draft/publish)
+                event.preventDefault(); // Mencegah form terkirim secara otomatis
+
+                let message = submitAction === 'publish' ? 'publish this report' : 'save this report as draft';
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `You are about to ${message}.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, proceed!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Jika dikonfirmasi, tambahkan input tersembunyi untuk submitAction
+                        const hiddenInput = document.createElement("input");
+                        hiddenInput.setAttribute("type", "hidden");
+                        hiddenInput.setAttribute("name", "submitAction");
+                        hiddenInput.setAttribute("value", submitAction);
+                        form.appendChild(hiddenInput);
+
+                        form.submit(); // Submit form jika pengguna klik "Yes"
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+
