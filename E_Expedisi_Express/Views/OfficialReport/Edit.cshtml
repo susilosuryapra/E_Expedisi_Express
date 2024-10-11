@@ -37,6 +37,42 @@
                                     <h4>Edit Official Report / <span class="font-italic">Edit Berita Acara</span></h4>
                                     <p class="paragraph-custom">Be sure to input the correct and valid data</p>
                                 </div>
+
+                                <div class="col-md-2">
+                                    <div class="d-flex justify-content-between">
+                                        <p>Creator</p>
+                                        <p>: </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>Date Created</p>
+                                        <p>: </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>Status</p>
+                                        <p>: </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>Actions</p>
+                                        <p>: </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div>
+                                        <p>UserName</p>
+                                    </div>
+                                    <div>
+                                        <p>30 September 2024</p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <span class="badge badge-success">Publish</span>
+                                            <span class="badge badge-warning">Draft</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p><i class="fas fa-download"></i></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -45,7 +81,7 @@
                                 <input type="hidden" asp-for="Id" />
                                 <input type="hidden" asp-for="NewId" />
 
-                                <h5 class="mt-4">Title</h5>
+                                <h5 class="mt-4">Title / <span class="font-italic">Judul</span></h5>
                                 <div class="form-group">
                                     <label asp-for="ReportTitle">Title</label>
                                     <input asp-for="ReportTitle" class="form-control" required />
@@ -66,7 +102,7 @@
                                 </div>
 
                                 <!-- Giver Section -->
-                                <h5 class="mt-4">Giver</h5>
+                                <h5 class="mt-4">Giver / <span class="font-italic">Pemberi</span></h5>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label asp-for="GiverName">Name</label>
@@ -94,7 +130,7 @@
                                 </div>
 
                                 <!-- Content Section -->
-                                <h5 class="mt-4">Content</h5>
+                                <h5 class="mt-4">Content / <span class="font-italic">Isi</span></h5>
                                 <div class="form-group">
                                     <label asp-for="MainDescription">Description</label>
                                     <textarea asp-for="MainDescription" class="form-control" rows="3" required></textarea>
@@ -102,7 +138,7 @@
                                 </div>
 
                                 <!-- Receiver Section -->
-                                <h5 class="mt-4">Receiver</h5>
+                                <h5 class="mt-4">Receiver / <span class="font-italic">Penerima</span></h5>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label asp-for="ReceiverName">Name</label>

@@ -74,11 +74,12 @@
                                     <label for="IsActive">Status</label>
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="IsActive" name="IsActive" value="true" @(Model.IsActive ? "checked" : "")>
-                                        <label class="custom-control-label" id="statusLabel" for="IsActive">
-                                            @(Model.IsActive ? "Active" : "Inactive")
+                                        <label class="custom-control-label" for="IsActive">
+                                            Active
                                         </label>
                                     </div>
                                 </div>
+
 
 
                                 <div class="form-group d-flex justify-content-end mt-5">
@@ -113,15 +114,6 @@
                 // 3. Batasi maksimal 3 karakter
                 var newValue = codeInput.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 3);
                 codeInput.value = newValue;
-            });
-
-            // Script untuk mengubah label Active/Inactive berdasarkan checkbox
-            $('#IsActive').change(function () {
-                if ($(this).is(':checked')) {
-                    $('#statusLabel').text('Active');
-                } else {
-                    $('#statusLabel').text('Inactive');
-                }
             });
 
             
