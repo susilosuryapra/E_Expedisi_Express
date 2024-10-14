@@ -222,17 +222,48 @@ namespace E_Expedisi_Express.Controllers
                     .SetMarginBottom(10));
 
                 // 3. Tabel untuk bagian Pemberi (Giver) tanpa border
-                Table giverTable = new Table(new float[] { 1, 5 }); // Kolom dengan lebar 1:5
+                Table giverTable = new Table(UnitValue.CreatePercentArray(new float[] { 2, 0.1f, 3 })); // 2:0.1:3 ratio for name, colon, and value
                 giverTable.SetWidth(UnitValue.CreatePercentValue(100)); // Tabel selebar halaman penuh
+                giverTable.SetBorder(Border.NO_BORDER); // Hilangkan border pada tabel
 
-                giverTable.AddCell(CreateCellNoBorder("Nama"));
-                giverTable.AddCell(CreateCellNoBorder($": {report.GiverName}"));
+                giverTable.AddCell(new Cell().Add(new Paragraph("Nama"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                giverTable.AddCell(new Cell().Add(new Paragraph(":"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                giverTable.AddCell(new Cell().Add(new Paragraph($"{report.GiverName}"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
 
-                giverTable.AddCell(CreateCellNoBorder("Department"));
-                giverTable.AddCell(CreateCellNoBorder($": {report.GiverDepartmentName}"));
+                giverTable.AddCell(new Cell().Add(new Paragraph("Department"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                giverTable.AddCell(new Cell().Add(new Paragraph(":"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                giverTable.AddCell(new Cell().Add(new Paragraph($"{report.GiverDepartmentName}"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
 
-                giverTable.AddCell(CreateCellNoBorder("Company"));
-                giverTable.AddCell(CreateCellNoBorder($": {report.GiverCompanyName}"));
+                giverTable.AddCell(new Cell().Add(new Paragraph("Company"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                giverTable.AddCell(new Cell().Add(new Paragraph(":"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                giverTable.AddCell(new Cell().Add(new Paragraph($"{report.GiverCompanyName}"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
 
                 document.Add(giverTable);
                 document.Add(new Paragraph(" ").SetMarginBottom(20)); // Menambah spasi antar elemen
@@ -241,7 +272,7 @@ namespace E_Expedisi_Express.Controllers
                 document.Add(new Paragraph(report.MainDescription)
                     .SetFontSize(12)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetMarginBottom(30)); // Spasi untuk deskripsi
+                    .SetMarginBottom(20)); // Spasi untuk deskripsi
 
                 // 5. Bagian Teks Kepada
                 document.Add(new Paragraph("Kepada:")
@@ -250,17 +281,48 @@ namespace E_Expedisi_Express.Controllers
                     .SetMarginBottom(10)); // Spasi bawah untuk memisahkan dengan penerima
 
                 // 6. Tabel untuk bagian Penerima (Receiver) tanpa border
-                Table receiverTable = new Table(new float[] { 1, 5 }); // Kolom dengan lebar 1:5
+                Table receiverTable = new Table(UnitValue.CreatePercentArray(new float[] { 2, 0.1f, 3 })); // 2:0.1:3 ratio for name, colon, and value
                 receiverTable.SetWidth(UnitValue.CreatePercentValue(100)); // Tabel selebar halaman penuh
+                receiverTable.SetBorder(Border.NO_BORDER); // Hilangkan border pada tabel
 
-                receiverTable.AddCell(CreateCellNoBorder("Nama"));
-                receiverTable.AddCell(CreateCellNoBorder($": {report.ReceiverName}"));
+                receiverTable.AddCell(new Cell().Add(new Paragraph("Nama"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                receiverTable.AddCell(new Cell().Add(new Paragraph(":"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                receiverTable.AddCell(new Cell().Add(new Paragraph($"{report.ReceiverName}"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
 
-                receiverTable.AddCell(CreateCellNoBorder("   Department"));
-                receiverTable.AddCell(CreateCellNoBorder($": {report.ReceiverDepartmentName}"));
+                receiverTable.AddCell(new Cell().Add(new Paragraph("Department"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                receiverTable.AddCell(new Cell().Add(new Paragraph(":"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                receiverTable.AddCell(new Cell().Add(new Paragraph($"{report.ReceiverDepartmentName}"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
 
-                receiverTable.AddCell(CreateCellNoBorder("   Company"));
-                receiverTable.AddCell(CreateCellNoBorder($": {report.ReceiverCompanyName}"));
+                receiverTable.AddCell(new Cell().Add(new Paragraph("Company"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                receiverTable.AddCell(new Cell().Add(new Paragraph(":"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                receiverTable.AddCell(new Cell().Add(new Paragraph($"{report.ReceiverCompanyName}"))
+                    .SetFontSize(12)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
 
                 document.Add(receiverTable);
                 document.Add(new Paragraph(" ").SetMarginBottom(40)); // Spasi antara penerima dan tanda tangan
@@ -269,20 +331,141 @@ namespace E_Expedisi_Express.Controllers
                 Table signatureTable = new Table(2); // Tabel untuk 2 kolom
                 signatureTable.SetWidth(UnitValue.CreatePercentValue(100)); // Selebar halaman penuh
 
-                signatureTable.AddCell(new Cell().Add(new Paragraph("1. Yang menyerahkan,")
+                signatureTable.AddCell(new Cell().Add(new Paragraph("Yang menyerahkan,")
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
                     .SetBorder(Border.NO_BORDER)); // Hilangkan border
 
-                signatureTable.AddCell(new Cell().Add(new Paragraph("2. Yang menerima,")
+                signatureTable.AddCell(new Cell().Add(new Paragraph("Yang menerima,")
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
                     .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+                
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
+                signatureTable.AddCell(new Cell().Add(new Paragraph("")
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
+                    .SetBorder(Border.NO_BORDER)); // Hilangkan border
+
 
                 // Baris tanda tangan kosong
-                signatureTable.AddCell(new Cell().Add(new Paragraph("(                                )")
+                signatureTable.AddCell(new Cell().Add(new Paragraph($"({report.GiverName})")
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
                     .SetBorder(Border.NO_BORDER)); // Hilangkan border
 
-                signatureTable.AddCell(new Cell().Add(new Paragraph("(                                )")
+                signatureTable.AddCell(new Cell().Add(new Paragraph($"({report.ReceiverName})")
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER))
                     .SetBorder(Border.NO_BORDER)); // Hilangkan border
 
@@ -300,19 +483,6 @@ namespace E_Expedisi_Express.Controllers
                 return File(bytes, "application/pdf", "OfficialReport.pdf");
             }
         }
-
-        // Helper function untuk membuat cell dalam tabel tanpa border
-        private Cell CreateCellNoBorder(string content)
-        {
-            return new Cell().Add(new Paragraph(content)
-                .SetFontSize(12)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBorder(Border.NO_BORDER)); // Hilangkan border pada cell
-        }
-
-
-
-
 
     }
 }
